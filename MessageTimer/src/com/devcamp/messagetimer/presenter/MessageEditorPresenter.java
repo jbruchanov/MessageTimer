@@ -76,14 +76,15 @@ public class MessageEditorPresenter
 	{
 		mServiceValues = mActivity.getResources().getStringArray(R.array.servicesValues);
 		mAlarmManager = new MessageAlarmManager(mActivity);
-//		if(mActivity.getIntent().hasExtra(MT.MESSAGE_ID))
-//		{
-//			Long id = mActivity.getIntent().getExtras().getLong(MT.MESSAGE_ID);
-//			setMessage(mDatabase.getMessages(id).get(0));
-//		}
-		
-			Long id = (long) 1;
+		if(mActivity.getIntent().hasExtra(MT.MESSAGE_ID))
+		{
+			Long id = mActivity.getIntent().getExtras().getLong(MT.MESSAGE_ID);
 			setMessage(mDatabase.getMessages(id).get(0));
+		}
+		else
+		{
+			clear();
+		}
 	}
 	
 	private void bind()
@@ -229,16 +230,11 @@ public class MessageEditorPresenter
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
-//				mActivity.registerReceiver(new TestRec(), new IntentFilter());
-//				Intent i = new Intent(mActivity, TestRec.class);
-//				mActivity.sendBroadcast(i);
-				
-//				
-//				String t = et.getText().toString();
-//				TemplateText tt = new TemplateText();
-//				tt.name = t;
-//				tt.value = mActivity.getMessage().getText().toString();
-//				onAddTemplate(tt);
+				String t = et.getText().toString();
+				TemplateText tt = new TemplateText();
+				tt.name = t;
+				tt.value = mActivity.getMessage().getText().toString();
+				onAddTemplate(tt);
 			}
 		});
 		b.setTitle(R.string.txtTemplateName);
@@ -246,11 +242,21 @@ public class MessageEditorPresenter
 		b.create().show();
 	}
 	
+	public void clear()
+	{
+		if(mCurrentItem == null || mCurrentItem.id == 0)
+		{
+			mActivity.getContactName().setText("");
+			mActivity.getPhoneNumber().setText("");
+			mActivity.getMessage().setText("");
+			mActivity.getWhenDate().setText("");
+			mActivity.getWhenTime().setText("");
+		}
+		
+	}
+	
 	public void onAddTemplate(TemplateText tt)
 	{
-		
-		
-		
 		try
 		{
 			if(tt.name == null || tt.name.trim().length() == 0)
@@ -270,6 +276,7 @@ public class MessageEditorPresenter
 			mActivity.showMessage(e.getMessage());
 		}
 	}
+	
 	
 	public void onSaveMessageClick()
 	{

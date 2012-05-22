@@ -61,6 +61,13 @@ public class MessageEditorActivity extends BaseActivity
 		super.onActivityResult(requestCode, resultCode, data);
 		mPresenter.onActivityResult(requestCode, resultCode, data);
 	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		mPresenter.clear();
+	}
 
 	@Override
 	protected View getContentView()

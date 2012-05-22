@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.test.AndroidTestCase;
 
+import com.devcamp.messagetimer.model.Message;
 import com.devcamp.messagetimer.model.TemplateText;
 import com.devcamp.messagetimer.test.DataGenerator;
 import com.devcamp.messagetimer.tools.Database;
@@ -18,5 +19,9 @@ public class HandTest extends AndroidTestCase
 		Database db = new Database(mContext);
 		for(TemplateText tt : data)
 			db.addTemplate(tt);
+				
+		List<Message> datax = DataGenerator.getRandomMessages(15);
+		for(Message tt : datax)
+			db.addMessage(tt);
 	}
 }

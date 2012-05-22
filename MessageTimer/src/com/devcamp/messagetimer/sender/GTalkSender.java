@@ -14,7 +14,7 @@ import com.devcamp.messagetimer.R;
 import android.content.Context;
 import android.util.Log;
 
-public class GTalkSender extends Sender
+public class GTalkSender extends CredentialSender
 {
 
 	public GTalkSender(Context context)
@@ -43,7 +43,7 @@ public class GTalkSender extends Sender
 		{
 
 			connection.connect();			
-			connection.login(name, getPasword());
+			connection.login(name, getPassword());
 
 			Presence presence = new Presence(Presence.Type.available);
             connection.sendPacket(presence);
@@ -69,12 +69,14 @@ public class GTalkSender extends Sender
 		}
 	}
 	
-	private String getUserName()
+	@Override
+	protected String getUserName()
 	{
 		return getStringProperty(R.string.PROPERTY_GTALK_LOGIN);
 	}
 	
-	private String getPasword()
+	@Override
+	protected String getPassword()
 	{
 		return getStringProperty(R.string.PROPERTY_GTALK_PASSWORD);
 	}
